@@ -1,0 +1,22 @@
+# Basic
+name: VoiceBankDemand
+train_tsv: /mnt/beegfs/robotlearn/xbie/VoiceBankDemand/train.tsv
+val_tsv: /mnt/beegfs/robotlearn/xbie/VoiceBankDemand/val.tsv
+test_tsv: /mnt/beegfs/robotlearn/xbie/VoiceBankDemand/test.tsv
+use_noise: False
+
+# Dataset config
+dataset_cfg:
+  n_src: 1
+  fs: 16000
+  chunk_size: 1.5 # segment length in second
+  normalize_audio: False
+
+# Dataloader config
+dataloader_cfg:
+  num_workers: 8
+  batch_size: 32
+  pin_memory: True
+  persistent_workers: False
+
+

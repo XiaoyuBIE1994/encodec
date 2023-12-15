@@ -49,3 +49,8 @@ ENV/
 
 /test_*.ecdc
 /test_*_decompressed.wav
+
+# 
+pretrained/
+output
+OAR*

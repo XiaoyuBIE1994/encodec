@@ -1,0 +1,7 @@
+# Basic
+name: TDA
+model_cfg:
+  out_channels: 128
+  inter_channels: 512
+  num_blocks: 16
+  upsampling_depth: 5

@@ -1,0 +1,40 @@
+
+# training_cfg:
+#   total_iter: 1000
+#   warm_iter: 100
+#   print_iter: 10
+#   eval_iter: 50
+#   test_iter: 100
+#   save_iter: 100
+#   early_stop: 3
+
+training_cfg:
+  total_iter: 200000
+  warm_iter: 10000
+  print_iter: 100
+  eval_iter: 1000
+  test_iter: 2000
+  save_iter: 1000
+  early_stop: 30
+  
+
+loss:
+  train:
+    loss_func: mse
+  val:
+    loss_func: mse
+
+
+optimizer:
+  name: Adam
+  config:
+    max_lr: 1e-3
+    min_lr: 1e-8
+    weight_decay: 1e-5
+    grad_clip: 5.0 # no clip if < 0 
+
+scheduler:
+  name: ReduceLROnPlateau
+  config:
+    patience: 15
+    factor: 0.5

@@ -1,0 +1,12 @@
+defaults:
+    - model: tda_base
+    - training: default
+    - dataset: vbd
+    - _self_
+
+backbone_pth: encodec_24khz-d7cc33bc.th
+project_name: EncodecSE
+exp_name: encodec_debug
+resume: True
+backup_code: True
+run_test: True
