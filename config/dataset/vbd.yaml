@@ -15,7 +15,7 @@ dataset_cfg:
 # Dataloader config
 dataloader_cfg:
   num_workers: 8
-  batch_size: 64
+  batch_size: 48
   pin_memory: True
   persistent_workers: False
 

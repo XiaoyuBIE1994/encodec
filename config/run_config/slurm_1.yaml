@@ -6,6 +6,7 @@ hydra:
         kv_sep: ':'
         item_sep: '/'
         exclude_keys:
+          - config_name
           - run_config
           - distributed_training.distributed_port
           - distributed_training.distributed_world_size

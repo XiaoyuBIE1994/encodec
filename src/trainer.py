@@ -333,7 +333,17 @@ class Trainer(object):
         with torch.no_grad():
             feat_noisy = self.backbone.encoder(x_noisy)
             feat_clean = self.backbone.encoder(x_clean)
-        feat_pred = self.model(feat_noisy)
+
+            codes, scale = self.backbone.encode(x_noisy)[0]
+            codes = codes.transpose(0, 1)
+            embs = []
+            for i, indices in enumerate(codes):
+                layer = self.backbone.quantizer.vq.layers[i]
+                quantized = layer.decode(indices)
+                embs.append(quantized)
+            embs = torch.stack(embs, dim=0) # (n_q, B, x_dim, T)
+
+        feat_pred = self.model(feat_noisy, embs)
 
         # Compute loss
         if self.amp:
@@ -378,9 +388,19 @@ class Trainer(object):
 
             feat_noisy = self.backbone.encoder(x_noisy)
             feat_clean = self.backbone.encoder(x_clean)
+
+            # pred code
+            codes, scale = self.backbone.encode(x_noisy)[0]
+            codes = codes.transpose(0, 1)
+            embs = []
+            for i, indices in enumerate(codes):
+                layer = self.backbone.quantizer.vq.layers[i]
+                quantized = layer.decode(indices)
+                embs.append(quantized)
+            embs = torch.stack(embs, dim=0) # (n_q, B, x_dim, T)
             
             # Prediction
-            feat_pred = self.model(feat_noisy)
+            feat_pred = self.model(feat_noisy, embs)
             all_predictions, all_targets = accelerator.gather_for_metrics((feat_pred, feat_clean))
             loss = self.loss_func['val'](all_predictions, all_targets)
 
@@ -419,8 +439,18 @@ class Trainer(object):
             feat_noisy = self.backbone.encoder(x_noisy)
             feat_clean = self.backbone.encoder(x_clean)
 
+            # pred code
+            codes, scale = self.backbone.encode(x_noisy)[0]
+            codes = codes.transpose(0, 1)
+            embs = []
+            for i, indices in enumerate(codes):
+                layer = self.backbone.quantizer.vq.layers[i]
+                quantized = layer.decode(indices)
+                embs.append(quantized)
+            embs = torch.stack(embs, dim=0) # (n_q, B, x_dim, T)
+
             # Prediction
-            feat_pred = self.model(feat_noisy)
+            feat_pred = self.model(feat_noisy, embs)
             all_predictions, all_targets = accelerator.gather_for_metrics((feat_pred, feat_clean))
             loss = self.loss_func['val'](all_predictions, all_targets)
 

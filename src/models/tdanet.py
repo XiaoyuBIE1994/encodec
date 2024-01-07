@@ -41,15 +41,32 @@ class NetTDA(nn.Module):
         super().__init__()
 
         self.sm = Recurrent(out_channels, inter_channels, upsampling_depth, num_blocks)
-        # mask_conv = nn.Conv1d(out_channels, num_sources * self.enc_num_basis, 1)
-        # self.mask_net = nn.Sequential(nn.PReLU(), mask_conv)
-        # self.mask_nl_class = nn.ReLU()
+        mask_conv = nn.Conv1d(out_channels, out_channels, 1)
+        self.mask_net = nn.Sequential(nn.PReLU(), mask_conv, nn.ReLU())
 
-    def forward(self, x):
+        self.weights = nn.Parameter(torch.ones(32))
+    
+    # predict mask
+    # def forward(self, x):
+    #     s = x.clone()
+    #     x = self.sm(x)
+    #     x = self.mask_net(x)
+    #     x = x * s
 
-        x = self.sm(x)
+    #     return x
+    
+    # predict mask with weighted sum
+    def forward(self, x, feats):
+        s = x.clone()
+
+        weights = torch.softmax(self.weights, dim=0)
+        weighted_sum = torch.sum(feats * weights.view(-1, 1, 1, 1), dim=0)
+        x = self.sm(weighted_sum)
+        x = self.mask_net(x)
+        x = x * s
 
         return x
+        
 
 if __name__ == '__main__':
 
