@@ -43,14 +43,8 @@ ENV/
 /notes
 /tmp
 
-# script outputs
-/processed
-/experiments
-
-/test_*.ecdc
-/test_*_decompressed.wav
-
-# 
+# outputs
 pretrained/
+output/
 output
-OAR*
+

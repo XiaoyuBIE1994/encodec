@@ -1,0 +1,19 @@
+# dependencies
+pandas==2.1.4
+tqdm==4.66.1
+SciPy==1.11.4
+# wandb==0.16.1 # not good for resume training
+matplotlib==3.8.2
+accelerate==0.25.0
+hydra-core==1.3.2
+tensorboard==2.15.1
+
+# audio specific libraries
+pysndfx==0.3.6
+pyloudnorm==0.1.1
+soundfile==0.12.1
+librosa==0.10.1
+pesq==0.0.4
+# pypesq==1.2.4 # fail to build on Ubuntu 22.04
+pystoi==0.4.1
+einops==0.7.0

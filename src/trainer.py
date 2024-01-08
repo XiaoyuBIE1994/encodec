@@ -69,7 +69,7 @@ class Trainer(object):
 
         # Tensorboard tracker
         accelerator.init_trackers(project_name='tb')
-        self.tracker = accelerator.get_tracker("tensorboard")
+        self.tracker = accelerator.get_trahydracker("tensorboard")
         logger.info('Tracker backend: tensorboard')
         
         # Preparation
